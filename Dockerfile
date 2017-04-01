@@ -20,6 +20,13 @@ RUN ssh-keygen -q -N "" -t rsa -f /etc/ssh/ssh_host_rsa_key
 RUN ssh-keygen -q -N "" -t rsa -f /root/.ssh/id_rsa
 RUN cp /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys
 
+RUN wget https://github.com/google/protobuf/releases/download/v2.5.0/protobuf-2.5.0.tar.gz
+RUN tar xzvf protobuf-2.5.0.tar.gz
+RUN cd protobuf-2.5.0
+RUN ./configure --prefix=/usr
+RUN make
+RUN make check
+RUN make install
 
 # java
 RUN apt-get install oracle-java8-jdk
@@ -28,8 +35,8 @@ ENV JAVA_HOME /usr/bin/java
 ENV PATH $PATH:$JAVA_HOME/bin
 
 # hadoop
-RUN curl -s http://www.apache.org/dist/hadoop/common/hadoop-2.7.3/hadoop-2.7.3.tar.gz | tar -xz -C /usr/local/ 
-RUN cd /usr/local && ln -s ./hadoop-2.7.3 hadoop
+RUN curl -s wget http://www.apache.org/dyn/closer.cgi/hadoop/common/hadoop-2.7.2/hadoop-2.7.2-src.tar.gz | tar -xz -C /usr/local/ 
+RUN cd /usr/local && ln -s ./hadoop-2.7.2 hadoop
 
 #Hadoop Environment variables
 ENV HADOOP_PREFIX /usr/local/hadoop
